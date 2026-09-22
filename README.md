@@ -2,7 +2,7 @@
 
 Bienvenido al repositorio oficial de **Marthilu Exclusividades**, una plataforma web e-commerce diseñada para exhibir productos exclusivos, regalos, arreglos y accesorios con un estilo elegante y personalizado.
 
-🌐 **Ver sitio en vivo:** [https://tu-usuario.github.io/tu-repositorio/](https://tu-usuario.github.io/tu-repositorio/)
+🌐 **Ver sitio en vivo:** MarthiluEsclusividades.github.io
 
 ---
 
