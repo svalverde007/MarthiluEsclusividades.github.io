@@ -169,19 +169,26 @@ function sendWhatsAppOrder() {
     return;
   }
 
-  let message = '¡Hola Marthilu Exclusividades! Quiero realizar el siguiente pedido:\n\n';
+  // 1. Número de teléfono de destino (Código de Ecuador: 593 + 992301548)
+  const phoneNumber = '593992301548';
+
+  // 2. Armar el mensaje de texto
+  let message = '¡Hola Marthilu Exclusividades! 👋\nQuiero realizar el siguiente pedido:\n\n';
   let total = 0;
 
-  cart.forEach(item => {
+  cart.forEach((item, index) => {
     const subtotal = item.price * item.quantity;
     total += subtotal;
-    message += `• ${item.name} x${item.quantity} - $${subtotal.toFixed(2)}\n`;
+    message += `${index + 1}. *${item.name}*\n   Cantidad: ${item.quantity}\n   Subtotal: $${subtotal.toFixed(2)}\n\n`;
   });
 
-  message += `\n*Total a pagar: $${total.toFixed(2)}*`;
+  message += `*TOTAL A PAGAR: $${total.toFixed(2)}*`;
 
-  const encodedUrl = `https://wa.me/593992301548?text=${encodeURIComponent(message)}`;
-  window.open(encodedUrl, '_blank');
+  // 3. Crear el enlace encodeado
+  const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+
+  // 4. Abrir en pestaña nueva
+  window.open(whatsappUrl, '_blank');
 }
 
 // Filtrar por categorías
