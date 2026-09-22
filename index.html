@@ -9,15 +9,16 @@
 </head>
 <body>
 
-  <!-- Barra de Contacto -->
+  <!-- Barra de Contacto y Redes Sociales -->
   <div class="top-bar">
     <div class="top-bar-container">
       <div class="top-info">
         <span><i class="fas fa-store"></i> Tienda Oficial</span>
         <span>Síguenos:</span>
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-whatsapp"></i></a>
+        <a href="www.facebook.com/servio.sv" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://https://www.instagram.com/servio.sv" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@servio.sv" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
+        <a href="https://wa.me/593992301548" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a>
       </div>
     </div>
   </div>
@@ -39,7 +40,7 @@
         <button type="button" id="search-btn"><i class="fas fa-search"></i></button>
       </div>
 
-      <!-- Carrito -->
+      <!-- Botón Mi Carrito -->
       <div class="header-actions">
         <button class="action-btn cart-btn" id="open-cart-btn">
           <i class="fas fa-shopping-cart"></i>
@@ -50,15 +51,14 @@
     </div>
   </header>
 
-  <!-- Filtros Rápidos de Categoría (Pill Buttons) -->
+  <!-- Filtros Rápidos de Categoría -->
   <nav class="categories-nav">
     <div class="categories-container">
       <button class="category-pill active" onclick="filterCategory('todos')">Todos</button>
-      <button class="category-pill" onclick="filterCategory('Regalos')">Regalos</button>
-      <button class="category-pill" onclick="filterCategory('Decoración')">Decoración</button>
-      <button class="category-pill" onclick="filterCategory('Moda')">Accesorios</button>
-      <button class="category-pill" onclick="filterCategory('Cuidado')">Cuidado Personal</button>
-      <button class="category-pill" onclick="filterCategory('Ofertas')">Ofertas</button>
+      <button class="category-pill" onclick="filterCategory('Regalos y Exclusividades')">Regalos</button>
+      <button class="category-pill" onclick="filterCategory('Decoración de Hogar')">Decoración</button>
+      <button class="category-pill" onclick="filterCategory('Accesorios de Moda')">Accesorios</button>
+      <button class="category-pill" onclick="filterCategory('Cuidado Personal')">Cuidado Personal</button>
     </div>
   </nav>
 
@@ -76,11 +76,32 @@
       </div>
     </div>
 
-    <!-- Cuadrícula Marketplace -->
-    <div class="products-grid" id="products-grid">
-      <!-- Los productos se cargan dinámicamente desde script.js -->
-    </div>
+    <!-- Cuadrícula de productos -->
+    <div class="products-grid" id="products-grid"></div>
   </main>
+
+  <!-- PANEL LATERAL DEL CARRITO -->
+  <div class="cart-overlay" id="cart-overlay"></div>
+  <aside class="cart-modal" id="cart-modal">
+    <div class="cart-header">
+      <h3><i class="fas fa-shopping-cart"></i> Tu Carrito de Compras</h3>
+      <button class="close-cart-btn" id="close-cart-btn">&times;</button>
+    </div>
+
+    <div class="cart-items-container" id="cart-items-container">
+      <!-- Los productos añadidos aparecerán aquí -->
+    </div>
+
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span>Total:</span>
+        <strong id="cart-total-price">$0.00</strong>
+      </div>
+      <button class="btn-checkout" id="checkout-btn" onclick="sendWhatsAppOrder()">
+        <i class="fab fa-whatsapp"></i> Finalizar Pedido por WhatsApp
+      </button>
+    </div>
+  </aside>
 
   <script src="script.js"></script>
 </body>
