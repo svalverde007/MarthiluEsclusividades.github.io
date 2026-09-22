@@ -1,4 +1,3 @@
-// Arreglo de productos de Marthilu Exclusividades
 const products = [
   {
     id: 1,
@@ -30,55 +29,27 @@ const products = [
   },
   {
     id: 5,
-    name: "Cofre de Regalo Marthilu - Deluxe",
-    price: 24.99,
-    image: "https://images.unsplash.com/photo-1513201099705-a9746e1e201f?w=500&auto=format&fit=crop&q=60",
-    category: "Regalos y Exclusividades"
-  },
-  {
-    id: 6,
     name: "Vela Aromática Artesanal Marthilu",
     price: 11.99,
     image: "https://images.unsplash.com/photo-1603006905003-be475563bc59?w=500&auto=format&fit=crop&q=60",
     category: "Cuidado Personal"
-  },
-  {
-    id: 7,
-    name: "Set Cuidado Personal Marthilu",
-    price: 24.99,
-    image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500&auto=format&fit=crop&q=60",
-    category: "Cuidado Personal"
-  },
-  {
-    id: 8,
-    name: "Joya Artesanal Marthilu - Gold",
-    price: 14.99,
-    image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=500&auto=format&fit=crop&q=60",
-    category: "Accesorios de Moda"
   }
 ];
 
-// Variables del Carrito
 let cart = [];
 
-// Cargar productos al iniciar el documento
 document.addEventListener('DOMContentLoaded', () => {
   renderProducts(products);
+  setupCartModal();
   setupSearch();
   setupSort();
 });
 
-// Función para renderizar tarjetas de productos
+// Renderizar tarjetas de productos
 function renderProducts(items) {
   const grid = document.getElementById('products-grid');
-  const totalCount = document.getElementById('total-products');
-  
   if (!grid) return;
   grid.innerHTML = '';
-  
-  if (totalCount) {
-    totalCount.textContent = items.length;
-  }
 
   items.forEach(product => {
     const card = document.createElement('div');
@@ -90,93 +61,166 @@ function renderProducts(items) {
       <div class="product-info">
         <h4 class="product-title">${product.name}</h4>
         <div class="product-price">$${product.price.toFixed(2)}</div>
-        <div class="quantity-control">
-          <button class="qty-btn minus" onclick="decreaseQty(${product.id})">-</button>
-          <span class="qty-value" id="qty-${product.id}">1</span>
-          <button class="qty-btn plus" onclick="increaseQty(${product.id})">+</button>
-        </div>
-        <button class="btn-buy" onclick="addToCart(${product.id})">Lo quiero</button>
+        <button class="btn-buy" onclick="addToCart(${product.id})">Agregar al Carrito</button>
       </div>
     `;
     grid.appendChild(card);
   });
 }
 
-// Funciones de control de cantidad
-function increaseQty(id) {
-  const qtySpan = document.getElementById(`qty-${id}`);
-  let currentVal = parseInt(qtySpan.textContent);
-  qtySpan.textContent = currentVal + 1;
-}
-
-function decreaseQty(id) {
-  const qtySpan = document.getElementById(`qty-${id}`);
-  let currentVal = parseInt(qtySpan.textContent);
-  if (currentVal > 1) {
-    qtySpan.textContent = currentVal - 1;
-  }
-}
-
-// Añadir al Carrito con notificación
+// Agregar producto al carrito y abrir panel
 function addToCart(id) {
   const product = products.find(p => p.id === id);
-  const qtySpan = document.getElementById(`qty-${id}`);
-  const quantity = parseInt(qtySpan.textContent);
-
   const existingItem = cart.find(item => item.id === id);
+
   if (existingItem) {
-    existingItem.quantity += quantity;
+    existingItem.quantity += 1;
   } else {
-    cart.push({ ...product, quantity });
+    cart.push({ ...product, quantity: 1 });
   }
 
-  updateCartCount();
-  alert(`¡Se agregaron ${quantity} unidades de "${product.name}" al carrito!`);
+  updateCartUI();
+  toggleCartModal(true); // Abre el panel para que revise sus productos
 }
 
-// Actualizar contador del carrito
-function updateCartCount() {
-  const countBadge = document.getElementById('cart-count');
-  if (countBadge) {
-    const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
-    countBadge.textContent = totalItems;
+// Actualizar Interfaz del Carrito
+function updateCartUI() {
+  const cartBadge = document.getElementById('cart-count');
+  const cartContainer = document.getElementById('cart-items-container');
+  const totalPriceElem = document.getElementById('cart-total-price');
+
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  if (cartBadge) cartBadge.textContent = totalItems;
+
+  if (!cartContainer) return;
+  cartContainer.innerHTML = '';
+
+  if (cart.length === 0) {
+    cartContainer.innerHTML = '<p style="text-align:center; color:#777; margin-top:20px;">Tu carrito está vacío.</p>';
+    if (totalPriceElem) totalPriceElem.textContent = '$0.00';
+    return;
+  }
+
+  let total = 0;
+  cart.forEach(item => {
+    const itemTotal = item.price * item.quantity;
+    total += itemTotal;
+
+    const itemDiv = document.createElement('div');
+    itemDiv.className = 'cart-item';
+    itemDiv.innerHTML = `
+      <img src="${item.image}" class="cart-item-img" alt="${item.name}">
+      <div class="cart-item-details">
+        <div class="cart-item-title">${item.name}</div>
+        <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+        <div class="cart-item-qty">
+          <button onclick="changeQty(${item.id}, -1)">-</button>
+          <span>${item.quantity}</span>
+          <button onclick="changeQty(${item.id}, 1)">+</button>
+        </div>
+      </div>
+    `;
+    cartContainer.appendChild(itemDiv);
+  });
+
+  if (totalPriceElem) totalPriceElem.textContent = `$${total.toFixed(2)}`;
+}
+
+// Cambiar cantidad en el carrito
+function changeQty(id, delta) {
+  const item = cart.find(i => i.id === id);
+  if (!item) return;
+
+  item.quantity += delta;
+  if (item.quantity <= 0) {
+    cart = cart.filter(i => i.id !== id);
+  }
+  updateCartUI();
+}
+
+// Abrir / Cerrar Panel del Carrito
+function setupCartModal() {
+  const openBtn = document.getElementById('open-cart-btn');
+  const closeBtn = document.getElementById('close-cart-btn');
+  const overlay = document.getElementById('cart-overlay');
+
+  if (openBtn) openBtn.addEventListener('click', () => toggleCartModal(true));
+  if (closeBtn) closeBtn.addEventListener('click', () => toggleCartModal(false));
+  if (overlay) overlay.addEventListener('click', () => toggleCartModal(false));
+}
+
+function toggleCartModal(show) {
+  const modal = document.getElementById('cart-modal');
+  const overlay = document.getElementById('cart-overlay');
+
+  if (show) {
+    modal.classList.add('open');
+    overlay.classList.add('open');
+  } else {
+    modal.classList.remove('open');
+    overlay.classList.remove('open');
   }
 }
 
-// Funcionalidad de Búsqueda
+// Enviar pedido detallado a WhatsApp
+function sendWhatsAppOrder() {
+  if (cart.length === 0) {
+    alert('Tu carrito está vacío.');
+    return;
+  }
+
+  let message = '¡Hola Marthilu Exclusividades! Quiero realizar el siguiente pedido:\n\n';
+  let total = 0;
+
+  cart.forEach(item => {
+    const subtotal = item.price * item.quantity;
+    total += subtotal;
+    message += `• ${item.name} x${item.quantity} - $${subtotal.toFixed(2)}\n`;
+  });
+
+  message += `\n*Total a pagar: $${total.toFixed(2)}*`;
+
+  const encodedUrl = `https://wa.me/593992301548?text=${encodeURIComponent(message)}`;
+  window.open(encodedUrl, '_blank');
+}
+
+// Filtrar por categorías
+function filterCategory(cat) {
+  document.querySelectorAll('.category-pill').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+
+  if (cat === 'todos') {
+    renderProducts(products);
+  } else {
+    const filtered = products.filter(p => p.category === cat);
+    renderProducts(filtered);
+  }
+}
+
+// Búsqueda
 function setupSearch() {
-  const searchInput = document.getElementById('search-input');
-  const searchBtn = document.getElementById('search-btn');
+  const input = document.getElementById('search-input');
+  const btn = document.getElementById('search-btn');
 
-  const performSearch = () => {
-    const term = searchInput.value.toLowerCase().trim();
+  const doSearch = () => {
+    const term = input.value.toLowerCase().trim();
     const filtered = products.filter(p => p.name.toLowerCase().includes(term));
     renderProducts(filtered);
   };
 
-  if (searchBtn) searchBtn.addEventListener('click', performSearch);
-  if (searchInput) searchInput.addEventListener('keyup', (e) => {
-    if (e.key === 'Enter') performSearch();
-  });
+  if (btn) btn.addEventListener('click', doSearch);
+  if (input) input.addEventListener('keyup', e => { if (e.key === 'Enter') doSearch(); });
 }
 
-// Funcionalidad de Ordenar por Precio/Nombre
+// Ordenar
 function setupSort() {
-  const sortSelect = document.getElementById('sort-select');
-  if (!sortSelect) return;
+  const select = document.getElementById('sort-select');
+  if (!select) return;
 
-  sortSelect.addEventListener('change', (e) => {
-    const value = e.target.value;
+  select.addEventListener('change', e => {
     let sorted = [...products];
-
-    if (value === 'low-high') {
-      sorted.sort((a, b) => a.price - b.price);
-    } else if (value === 'high-low') {
-      sorted.sort((a, b) => b.price - a.price);
-    } else if (value === 'name') {
-      sorted.sort((a, b) => a.name.localeCompare(b.name));
-    }
-
+    if (e.value === 'low-high') sorted.sort((a,b) => a.price - b.price);
+    if (e.value === 'high-low') sorted.sort((a,b) => b.price - a.price);
     renderProducts(sorted);
   });
 }
