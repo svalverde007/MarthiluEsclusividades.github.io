@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Marthilu Exclusividades</title>
+  <title>Marthilu Exclusividades | Marketplace</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Barra Superior de Contacto -->
+  <!-- Barra de Contacto -->
   <div class="top-bar">
     <div class="top-bar-container">
       <div class="top-info">
-        <span><i class="fas fa-store"></i> Tiendas</span>
+        <span><i class="fas fa-store"></i> Tienda Oficial</span>
         <span>Síguenos:</span>
         <a href="#"><i class="fab fa-facebook-f"></i></a>
         <a href="#"><i class="fab fa-instagram"></i></a>
@@ -25,8 +25,6 @@
   <!-- Encabezado Principal -->
   <header class="main-header">
     <div class="header-container">
-      
-      <!-- Brand / Logo -->
       <a href="#" class="brand-logo">
         <img src="Logo Marhilu local.jfif" alt="Marthilu Exclusividades" class="logo-img">
         <div class="brand-text">
@@ -35,86 +33,53 @@
         </div>
       </a>
 
-      <!-- Buscador -->
+      <!-- Buscador Marketplace -->
       <div class="search-box">
-        <input type="text" id="search-input" placeholder="Busca tu producto favorito...">
+        <input type="text" id="search-input" placeholder="¿Qué estás buscando hoy?">
         <button type="button" id="search-btn"><i class="fas fa-search"></i></button>
       </div>
 
-      <!-- Acciones de Usuario / Carrito -->
+      <!-- Carrito -->
       <div class="header-actions">
-        <a href="#" class="action-btn"><i class="far fa-user"></i> <span>Iniciar Sesión</span></a>
         <button class="action-btn cart-btn" id="open-cart-btn">
           <i class="fas fa-shopping-cart"></i>
           <span class="cart-badge" id="cart-count">0</span>
           <span>Mi Carrito</span>
         </button>
       </div>
-
     </div>
   </header>
 
-  <!-- Contenedor Principal de la Tienda -->
-  <main class="main-layout">
-    
-    <!-- Barra Lateral de Categorías y Filtros -->
-    <aside class="sidebar">
-      <div class="sidebar-box">
-        <h3 class="sidebar-title">Categorías</h3>
-        <ul class="sidebar-list">
-          <li class="active"><a href="#">Regalos y Exclusividades <i class="fas fa-chevron-right"></i></a></li>
-          <li><a href="#">Decoración de Hogar <i class="fas fa-chevron-right"></i></a></li>
-          <li><a href="#">Accesorios de Moda <i class="fas fa-chevron-right"></i></a></li>
-          <li><a href="#">Cuidado Personal <i class="fas fa-chevron-right"></i></a></li>
-          <li><a href="#">Detalles Especiales <i class="fas fa-chevron-right"></i></a></li>
-          <li><a href="#">Gourmet <i class="fas fa-chevron-right"></i></a></li>
-          <li><a href="#">Niños y Bebés <i class="fas fa-chevron-right"></i></a></li>
-          <li><a href="#">Personalízalo <i class="fas fa-chevron-right"></i></a></li>
-          <li><a href="#">Ofertas <i class="fas fa-chevron-right"></i></a></li>
-        </ul>
+  <!-- Filtros Rápidos de Categoría (Pill Buttons) -->
+  <nav class="categories-nav">
+    <div class="categories-container">
+      <button class="category-pill active" onclick="filterCategory('todos')">Todos</button>
+      <button class="category-pill" onclick="filterCategory('Regalos')">Regalos</button>
+      <button class="category-pill" onclick="filterCategory('Decoración')">Decoración</button>
+      <button class="category-pill" onclick="filterCategory('Moda')">Accesorios</button>
+      <button class="category-pill" onclick="filterCategory('Cuidado')">Cuidado Personal</button>
+      <button class="category-pill" onclick="filterCategory('Ofertas')">Ofertas</button>
+    </div>
+  </nav>
+
+  <!-- Catálogo Principal de Productos -->
+  <main class="marketplace-container">
+    <div class="catalog-header">
+      <h2>Catálogo de Productos</h2>
+      <div class="sort-by">
+        <label for="sort-select">Ordenar por:</label>
+        <select id="sort-select">
+          <option value="featured">Destacados</option>
+          <option value="low-high">Precio: Menor a Mayor</option>
+          <option value="high-low">Precio: Mayor a Menor</option>
+        </select>
       </div>
+    </div>
 
-      <div class="sidebar-box">
-        <h3 class="sidebar-title">Filtros</h3>
-        <div class="filter-group">
-          <label>Marca <i class="fas fa-chevron-down"></i></label>
-        </div>
-        <div class="filter-group">
-          <label>Material <i class="fas fa-chevron-down"></i></label>
-        </div>
-        <div class="filter-group">
-          <label>Género <i class="fas fa-chevron-down"></i></label>
-        </div>
-        <div class="filter-group">
-          <label>Color <i class="fas fa-chevron-down"></i></label>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Sección de Productos -->
-    <section class="products-section">
-      
-      <!-- Top bar de catálogo -->
-      <div class="catalog-header">
-        <span class="product-count">Productos encontrados: <strong id="total-products">8</strong></span>
-        <div class="sort-by">
-          <label for="sort-select">Ordenar por:</label>
-          <select id="sort-select">
-            <option value="featured">Seleccione</option>
-            <option value="low-high">Precio: Menor a Mayor</option>
-            <option value="high-low">Precio: Mayor a Menor</option>
-            <option value="name">Nombre</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Cuadrícula de Productos -->
-      <div class="products-grid" id="products-grid">
-        <!-- Generado dinámicamente desde JavaScript -->
-      </div>
-
-    </section>
-
+    <!-- Cuadrícula Marketplace -->
+    <div class="products-grid" id="products-grid">
+      <!-- Los productos se cargan dinámicamente desde script.js -->
+    </div>
   </main>
 
   <script src="script.js"></script>
