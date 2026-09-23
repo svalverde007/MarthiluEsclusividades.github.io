@@ -525,3 +525,59 @@ body {
     text-align: center;
   }
 }
+
+/* Botón Administrador */
+.btn-admin {
+  background-color: var(--accent-gold, #d4af37);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Modal Administrador */
+.admin-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  width: 90%;
+  max-width: 450px;
+  background: white;
+  z-index: 1000;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  display: none;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.admin-modal.open {
+  display: block;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.admin-form {
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.form-group input, .form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+}
