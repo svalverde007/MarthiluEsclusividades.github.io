@@ -42,11 +42,6 @@ body {
 .top-info span, .top-info a {
   color: white;
   text-decoration: none;
-  transition: transform 0.2s;
-}
-
-.top-info a:hover {
-  transform: scale(1.2);
 }
 
 .main-header {
@@ -245,7 +240,7 @@ body {
   color: white;
 }
 
-/* PANEL LATERAL DEL CARRITO MODAL */
+/* PANEL LATERAL DEL CARRITO */
 .cart-overlay {
   position: fixed;
   top: 0;
@@ -374,7 +369,9 @@ body {
   gap: 8px;
 }
 
-
+/* ==========================================
+   ESTILOS PIE DE PÁGINA (FOOTER)
+   ========================================== */
 .site-footer {
   background-color: #ffffff;
   color: #555555;
@@ -433,10 +430,9 @@ body {
 }
 
 .footer-block ul li a:hover {
-  color: var(--dark-mint, #7bbd97);
+  color: #7bbd97;
 }
 
-/* Badges e Iconos de Pago */
 .payment-badges {
   display: flex;
   gap: 10px;
@@ -483,7 +479,6 @@ body {
   color: #333;
 }
 
-/* Footer Bottom */
 .footer-bottom {
   display: flex;
   justify-content: space-between;
